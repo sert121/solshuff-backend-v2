@@ -54,20 +54,22 @@ def verify_password(hashed_password: str, plain_password: str):
 
 
 def update_balance(db: Session, wallet_address: str,password:str, amt: float,add_or_sub:str):
-    db_user = db.query(models.User).filter(models.User.wallet_address == wallet_address).first()    
-    if verify_password(db_user.hashed_password,password):
-        if add_or_sub == 'add':
-            db_user.balance += amt
-        elif add_or_sub == 'sub':
-            db_user.balance -= amt
-        db.commit()
-        db.refresh(db_user)
-        return True
-
+    try:
+        db_user = db.query(models.User).filter(models.User.wallet_address == wallet_address).first()    
+        if verify_password(db_user.hashed_password,password):
+            if add_or_sub == 'add':
+                db_user.balance += amt
+            elif add_or_sub == 'sub':
+                db_user.balance -= amt
+            db.commit()
+            db.refresh(db_user)
+            return True
+        return False
+    except:
     # db_user.balance = balance
     # db.commit()
     # db.refresh(db_user)
-    return False
+        return False
 
 def get_transactions(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Transaction).offset(skip).limit(limit).all()
