@@ -1,0 +1,1 @@
+{"id":"c132fb7a-4d08-4307-9a76-e4a7efcff7a2","space":11839,"runtime":"python3.9","name":"beta","path":"8gjn16","project":"c0ymk43i","account":"144798365827","region":"ap-southeast-1","deps":["fastapi","uvicorn[standard]","solana","python-dotenv","SQLAlchemy"],"envs":["SEC"],"public":true,"log_level":"debug","cron":""}
