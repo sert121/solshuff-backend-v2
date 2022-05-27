@@ -39,15 +39,16 @@ from solana.system_program import TransferParams, transfer
 from solana.transaction import Transaction
 from solana.rpc.async_api import AsyncClient
 app = FastAPI()
-origins = ["*","http://localhost:3000"]
+origins = ["*","http://localhost:3000","http://localhost"]
 import psycopg2
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["POST", "GET"],
     allow_headers=["*"],
+
 )
 
 # Dependency
@@ -133,7 +134,7 @@ def add_to_bal(data: schemas.AddBalance,db: Session = Depends(get_db)):
         crud.create_user_txn_v2(db,txn_id=data.txn_id,addr=data.wallet_address)
         return {'status':'Successful'}
     except:
-        return {'status':'Failed to create transaction, txn exists'}
+        return {'status':'!!! Failed to create transaction, txn exists'}
     # except Exception:
     #     print(Exception)
     #     return {'status':f'{Exception}'}
@@ -142,8 +143,8 @@ def add_to_bal(data: schemas.AddBalance,db: Session = Depends(get_db)):
 '''
 @app.get("/users/bal/{addr}")
 # def get_bal(addr:str,db: Session = Depends(get_db)):
-def get_bal(addr:str,db: Session = Depends(get_db)):
-    result = crud.get_user_balance(db,wallet_address=addr)
+def get_bal(data: schemas.GetBalance,db: Session = Depends(get_db)):
+    result = crud.get_user_balance(db,wallet_address=data.addr)
     return {'balance':f'{result}'}    
 
 '''[POST] Withdraw balance from main_account and update the balance in DB

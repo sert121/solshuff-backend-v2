@@ -42,6 +42,7 @@ class WithdrawBalance(BaseModel):
     amount: str
 
 
+
 class AddBalance(BalanceBase):
     wallet_address: str
     password:str
