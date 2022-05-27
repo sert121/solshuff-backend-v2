@@ -39,7 +39,7 @@ from solana.system_program import TransferParams, transfer
 from solana.transaction import Transaction
 from solana.rpc.async_api import AsyncClient
 app = FastAPI()
-origins = ["*"]
+origins = ["*","http://localhost:3000"]
 import psycopg2
 
 app.add_middleware(
